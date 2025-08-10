@@ -2,6 +2,7 @@
 <html lang="pl">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Stacja 4 – Finał</title>
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet" />
   <style>
@@ -97,7 +98,7 @@
 
     iframe {
       width: 100%;
-      height: 550px;
+      max-height: 400px; /* zmniejszone z 550px na telefonach */
       margin-top: 20px;
       border-radius: 12px;
       border: none;
@@ -122,6 +123,33 @@
     .hidden {
       display: none;
     }
+
+    /* RESPONSYWNOŚĆ */
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 22px;
+      }
+      input[type="text"] {
+        font-size: 16px;
+        padding: 10px 12px;
+      }
+      button {
+        font-size: 16px;
+        padding: 12px 24px;
+      }
+      iframe {
+        max-height: 300px;
+      }
+      .container {
+        max-width: 100vw;
+        width: 95vw;
+        max-height: 90vh;
+        padding: 15px;
+        border-radius: 8px;
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -156,7 +184,7 @@
     <div id="finalMessage" class="hidden">
       Po wypełnieniu formularza, udaj się do <strong>pokoju XXXX w 42 Warsaw</strong>, aby odebrać
       swoją nagrodę! 🎉<br><br>
-(przy odbiorze należy pokazać potwierdzenie wysłania)<br>
+      (przy odbiorze należy pokazać potwierdzenie wysłania)<br>
     </div>
   </div>
 
@@ -192,7 +220,6 @@
     let columns;
     let drops = [];
 
-    // Parametry animacji powtarzanej co ~1 sekundy
     let startTime;
     const animationDuration = 1000; // 1 sekunda w ms
 
@@ -212,7 +239,6 @@
       if (!startTime) startTime = time;
       const elapsed = time - startTime;
 
-      // Czyszczenie z lekkim przezroczystym czarnym, żeby zostawić "smugi"
       ctx.fillStyle = 'rgba(0, 0, 0, 0.15)';
       ctx.fillRect(0, 0, width, height);
 
@@ -224,7 +250,6 @@
         const y = (drops[i] * fontSize) % height;
         ctx.fillText(text, i * fontSize, y);
 
-        // Animacja ruchu w dół w pierwszej połowie cyklu, potem reset
         if (elapsed % animationDuration < animationDuration / 2) {
           drops[i]++;
         } else {
@@ -235,18 +260,13 @@
       if (elapsed < animationDuration) {
         requestAnimationFrame(draw);
       } else {
-        // Reset animacji po upływie 1 sekundy, aby powtarzać efekt od nowa
         startTime = time;
         drops = new Array(columns).fill(1);
         requestAnimationFrame(draw);
       }
     }
 
-    function onResize() {
-      setup();
-    }
-
-    window.addEventListener('resize', onResize);
+    window.addEventListener('resize', setup);
 
     setup();
     requestAnimationFrame(draw);
