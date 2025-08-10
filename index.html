@@ -3,15 +3,22 @@
 <head>
   <meta charset="UTF-8" />
   <title>Stacja 4 – Finał</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet" />
   <style>
+    /* Reset i baza */
+    * {
+      box-sizing: border-box;
+    }
     html, body {
       margin: 0; padding: 0;
       height: 100%;
-      background-color: #000;
+      background: linear-gradient(135deg, #001010, #004040);
       font-family: 'Share Tech Mono', monospace;
       color: #00ffcc;
-      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-y: auto;
     }
 
     #matrixCanvas {
@@ -22,141 +29,109 @@
       z-index: 0;
       pointer-events: none;
       user-select: none;
+      opacity: 0.1;
     }
 
     .container {
       position: relative;
       z-index: 1;
-      max-width: 640px;
-      width: 90vw;
-      max-height: 80vh;
-      background: rgba(0,0,0,0.85);
-      border: 2px solid #00ffcc;
-      border-radius: 12px;
-      box-shadow: 0 0 20px #00ffcc;
-      padding: 20px;
-      box-sizing: border-box;
-      overflow-y: auto;
-      margin: 20px auto;
+      max-width: 600px;
+      margin: 2rem auto 3rem;
+      padding: 1.5rem 1rem 2rem;
+      background: rgba(0, 0, 0, 0.8);
+      border-radius: 16px;
+      box-shadow:
+        0 0 15px #00ffccaa,
+        inset 0 0 30px #00ffcc44;
       text-align: center;
     }
 
     h1 {
       margin-top: 0;
-      font-size: 28px;
-      color: #ff0055;
-      text-shadow: 0 0 6px #ff0055;
-      font-weight: bold;
+      font-size: 2rem;
+      color: #ff44aa;
+      text-shadow: 0 0 10px #ff44aa;
+      font-weight: 700;
+    }
+
+    p {
+      font-size: 1.1rem;
+      line-height: 1.4;
+      margin-bottom: 1.5rem;
+      color: #a0fff0dd;
     }
 
     input[type="text"] {
       width: 100%;
-      padding: 12px 16px;
-      font-size: 18px;
+      padding: 14px 18px;
+      font-size: 1.2rem;
       background: #000;
       color: #00ffcc;
       border: 2px solid #00ffcc;
       font-weight: bold;
-      margin: 10px 0;
-      box-sizing: border-box;
-      border-radius: 10px;
-      outline-offset: 2px;
-      transition: border-color 0.3s, box-shadow 0.3s;
+      margin-bottom: 1.5rem;
+      border-radius: 12px;
+      outline-offset: 3px;
       caret-color: #00ffcc;
+      transition: border-color 0.3s, box-shadow 0.3s;
     }
     input[type="text"]:focus {
-      border-color: #ff0055;
-      box-shadow: 0 0 8px #ff0055;
+      border-color: #ff44aa;
+      box-shadow: 0 0 10px #ff44aa;
       background-color: #111;
     }
 
     button {
+      width: 100%;
       background: none;
       border: 2px solid #00ffcc;
       color: #00ffcc;
-      padding: 14px 30px;
-      font-size: 18px;
+      padding: 16px;
+      font-size: 1.25rem;
       cursor: pointer;
-      margin-top: 20px;
-      font-weight: bold;
+      font-weight: 700;
       text-transform: uppercase;
+      border-radius: 12px;
+      text-shadow: 0 0 8px #00ffcc;
       transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
-      text-shadow: 0 0 6px #00ffcc;
-      border-radius: 10px;
-      outline-offset: 2px;
+      margin-bottom: 1.5rem;
     }
     button:hover,
     button:focus {
       background-color: #00ffcc;
       color: #000;
+      box-shadow: 0 0 16px #00ffcc;
       text-shadow: none;
-      box-shadow: 0 0 12px #00ffcc;
-    }
-
-    iframe {
-      width: 100%;
-      height: 500px;
-      margin-top: 20px;
-      border-radius: 12px;
-      border: none;
-      box-shadow: 0 0 15px rgba(0,255,204,0.3);
-      display: block;
+      outline: none;
     }
 
     #error {
-      color: red;
-      margin-top: 20px;
-      font-weight: bold;
-      text-shadow: 0 0 4px red;
+      color: #ff4466;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      text-shadow: 0 0 6px #ff4466;
     }
 
-    #finalMessage {
-      margin-top: 20px;
-      font-weight: bold;
-      font-size: 18px;
-      color: #00ffcc;
-      text-shadow: 0 0 6px #00ffcc;
-    }
-
-    .hidden {
+    #formSection {
+      margin-top: 1.5rem;
       display: none;
     }
 
-    /* RESPONSYWNOŚĆ NA TELEFONY */
-    @media (max-width: 480px) {
-      html, body {
-        overflow: auto;
-        height: auto;
-      }
-      .container {
-        max-width: 100vw;
-        width: 100vw;
-        max-height: 100vh;
-        height: 100vh;
-        border-radius: 0;
-        padding: 20px 15px;
-        margin: 0;
-        overflow-y: auto;
-        box-shadow: none;
-      }
-      h1 {
-        font-size: 22px;
-      }
-      input[type="text"] {
-        font-size: 16px;
-        padding: 14px 12px;
-      }
-      button {
-        font-size: 16px;
-        padding: 14px 20px;
-      }
-      iframe {
-        height: calc(100vh - 300px);
-        max-height: none;
-        margin-top: 15px;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0,255,204,0.5);
-      }
+    #formSection iframe {
+      width: 100%;
+      min-height: 70vh; /* wysoki formularz na telefonie */
+      border-radius: 16px;
+      border: none;
+      box-shadow: 0 0 20px #00ffccaa;
+    }
+
+    #finalMessage {
+      margin-top: 1.5rem;
+      font-weight: 700;
+      font-size: 1.15rem;
+      color: #00ffcc;
+      text-shadow: 0 0 8px #00ffcc;
+      display: none;
     }
   </style>
 </head>
@@ -170,54 +145,56 @@
     <input type="text" id="finalCode" placeholder="Wpisz kod" autocomplete="off" />
     <button onclick="checkCode()">Zatwierdź kod</button>
 
-    <div id="formSection" class="hidden">
+    <div id="error"></div>
+
+    <div id="formSection">
       <h2>&gt; GRATULACJE!</h2>
       <p>Kod poprawny! Wypełnij poniższy formularz, aby odebrać nagrodę:</p>
       <iframe
         src="https://docs.google.com/forms/d/e/1FAIpQLScuPc05HBW7mP9aYCbsUHq6s7HZJ_hj5kSH4PdIW_EjxOqRYA/viewform?embedded=true"
-        frameborder="0"
-        marginheight="0"
-        marginwidth="0"
         aria-label="Formularz Google"
       >Ładuję…</iframe>
-      <button id="confirmSubmitBtn" onclick="showFinalMessage()" class="hidden">
+      <button id="confirmSubmitBtn" onclick="showFinalMessage()">
         Potwierdzam wysłanie formularza
       </button>
     </div>
 
-    <div id="error" class="hidden">
-      Błędny kod! Spróbuj ponownie.
-    </div>
-
-    <div id="finalMessage" class="hidden">
+    <div id="finalMessage">
       Po wypełnieniu formularza, udaj się do <strong>pokoju XXXX w 42 Warsaw</strong>, aby odebrać
       swoją nagrodę! 🎉<br><br>
-(przy odbiorze należy pokazać potwierdzenie wysłania)<br>
+      (przy odbiorze należy pokazać potwierdzenie wysłania)
     </div>
   </div>
 
   <script>
-    // Kod sprawdzania wpisanego kodu
     function checkCode() {
-      const code = document.getElementById('finalCode').value.trim();
-      if (code.toUpperCase() === '06BHL12') {
-        document.getElementById('formSection').classList.remove('hidden');
-        document.getElementById('error').classList.add('hidden');
-        document.getElementById('confirmSubmitBtn').classList.remove('hidden');
+      const codeInput = document.getElementById('finalCode');
+      const code = codeInput.value.trim().toUpperCase();
+      const errorDiv = document.getElementById('error');
+      const formSection = document.getElementById('formSection');
+      const finalMessage = document.getElementById('finalMessage');
+
+      if (code === '06BHL12') {
+        errorDiv.textContent = '';
+        formSection.style.display = 'block';
+        finalMessage.style.display = 'none';
+        // Scroll do formularza na telefonie
+        setTimeout(() => {
+          formSection.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
       } else {
-        document.getElementById('error').classList.remove('hidden');
-        document.getElementById('formSection').classList.add('hidden');
-        document.getElementById('confirmSubmitBtn').classList.add('hidden');
-        document.getElementById('finalMessage').classList.add('hidden');
+        errorDiv.textContent = 'Błędny kod! Spróbuj ponownie.';
+        formSection.style.display = 'none';
+        finalMessage.style.display = 'none';
       }
     }
 
     function showFinalMessage() {
-      document.getElementById('finalMessage').classList.remove('hidden');
-      document.getElementById('confirmSubmitBtn').classList.add('hidden');
+      document.getElementById('finalMessage').style.display = 'block';
+      document.getElementById('confirmSubmitBtn').style.display = 'none';
     }
 
-    // --- Animacja matrix ---
+    // --- Animacja matrix (opcjonalnie, jeśli chcesz zachować) ---
     const canvas = document.getElementById('matrixCanvas');
     const ctx = canvas.getContext('2d');
 
@@ -227,9 +204,6 @@
 
     let columns;
     let drops = [];
-
-    let startTime;
-    const animationDuration = 1000;
 
     function setup() {
       width = window.innerWidth;
@@ -243,10 +217,7 @@
       drops = new Array(columns).fill(1);
     }
 
-    function draw(time) {
-      if (!startTime) startTime = time;
-      const elapsed = time - startTime;
-
+    function draw(time = 0) {
       ctx.fillStyle = 'rgba(0, 0, 0, 0.15)';
       ctx.fillRect(0, 0, width, height);
 
@@ -257,27 +228,20 @@
         const text = characters.charAt(Math.floor(Math.random() * characters.length));
         const y = (drops[i] * fontSize) % height;
         ctx.fillText(text, i * fontSize, y);
-
-        if (elapsed % animationDuration < animationDuration / 2) {
-          drops[i]++;
-        } else {
-          drops[i] = (drops[i] + 1) % (height / fontSize);
+        drops[i]++;
+        if (drops[i] * fontSize > height && Math.random() > 0.975) {
+          drops[i] = 0;
         }
       }
-
-      if (elapsed < animationDuration) {
-        requestAnimationFrame(draw);
-      } else {
-        startTime = time;
-        drops = new Array(columns).fill(1);
-        requestAnimationFrame(draw);
-      }
+      requestAnimationFrame(draw);
     }
 
-    window.addEventListener('resize', setup);
+    window.addEventListener('resize', () => {
+      setup();
+    });
 
     setup();
-    requestAnimationFrame(draw);
+    draw();
   </script>
 </body>
 </html>
