@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Hack The Dino</title>
+  <title>Stacja 4</title>
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet" />
   <style>
     :root {
@@ -20,15 +20,16 @@
     html, body {
       margin: 0;
       padding: 0;
-      height: 100%;
+      min-height: 100%;               /* pozwala na przewijanie */
       background: var(--dark-bg);
       font-family: 'Share Tech Mono', monospace;
       color: var(--primary-color);
-      overflow: hidden;
       display: flex;
       justify-content: center;
       align-items: center;
       position: relative;
+      overflow-x: hidden;             /* blokada poziomego przewijania */
+      overflow-y: auto;               /* pionowy scroll działa */
     }
 
     body::before {
@@ -58,6 +59,7 @@
       position: relative;
       z-index: 2;
       max-width: 720px;
+      width: 100%;
       background: rgba(0, 0, 0, 0.65);
       border: 2px solid var(--primary-color);
       border-radius: 16px;
@@ -68,6 +70,7 @@
         0 0 35px var(--primary-color),
         0 0 70px var(--accent-color);
       margin: 20px;
+      box-sizing: border-box; /* neon i ramka mieszczą się w ekranie */
     }
 
     h1 {
@@ -138,7 +141,6 @@
       transform: scale(0.97);
     }
 
-    /* Cyfry w tle – większe */
     .digit {
       position: fixed;
       font-size: 26px;
@@ -155,15 +157,12 @@
       main {
         padding: 30px 25px;
       }
-
       h1 {
         font-size: 2.4rem;
       }
-
       p {
         font-size: 1.1rem;
       }
-
       button {
         font-size: 1.1rem;
         padding: 12px 30px;
@@ -175,11 +174,9 @@
         font-size: 1.9rem;
         letter-spacing: 1px;
       }
-
       p {
         font-size: 1rem;
       }
-
       .digit {
         display: none;
       }
@@ -192,9 +189,10 @@
     <p><strong>Witaj,</strong><br />
       To ostatni poziom. Tutaj nie ma powrotu.<br /><br />
       <strong>Stacja finałowa nie zna litości.</strong> Każdy Twój ruch będzie obserwowany, każdy błąd zostanie zapamiętany.<br />
-Tylko najwytrwalsi wyjdą zwycięsko.<br><br>
+      Tylko najwytrwalsi wyjdą zwycięsko.<br><br>
       🔐 Odważysz się wkroczyć tam, gdzie kończy się wszystko, co znasz?<br /><br>
-      <strong>Powodzenia, Graczu. To ostatnia próba.</strong>
+      Powodzenia, <strong>Graczu</strong>. <br>
+      <strong>To ostatnia próba.</strong>
     </p>
     <button onclick="goTo('stacja4.html')" aria-label="Przejdź do stacji 4">&gt; DALEJ</button>
   </main>
@@ -222,7 +220,7 @@ Tylko najwytrwalsi wyjdą zwycięsko.<br><br>
       digit.textContent = Math.floor(Math.random() * 10);
       document.body.appendChild(digit);
 
-      const size = randomRange(24, 48); // ZWIĘKSZONY ROZMIAR CYFR
+      const size = randomRange(24, 48);
       digit.style.fontSize = size + 'px';
 
       return {
