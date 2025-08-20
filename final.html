@@ -7,15 +7,16 @@
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet" />
   <style>
     html, body {
-      margin: 0; padding: 0;
+      margin: 0;
+      padding: 0;
       height: 100%;
       background-color: #000;
-      overflow: hidden;
       font-family: 'Share Tech Mono', monospace;
       color: #00ffcc;
       display: flex;
       justify-content: center;
       align-items: center;
+      overflow: hidden;
     }
 
     #matrixCanvas {
@@ -33,14 +34,12 @@
       z-index: 1;
       max-width: 640px;
       width: 90vw;
-      max-height: 80vh;
       background: rgba(0,0,0,0.85);
       border: 2px solid #00ffcc;
       border-radius: 12px;
       box-shadow: 0 0 20px #00ffcc;
       padding: 20px;
       box-sizing: border-box;
-      overflow-y: auto;
       text-align: center;
     }
 
@@ -50,6 +49,11 @@
       color: #ff0055;
       text-shadow: 0 0 6px #ff0055;
       font-weight: bold;
+    }
+
+    p {
+      font-size: 16px;
+      line-height: 1.4em;
     }
 
     input[type="text"] {
@@ -96,36 +100,21 @@
       box-shadow: 0 0 12px #00ffcc;
     }
 
-    iframe {
-      width: 100%;
-      max-height: 400px; /* zmniejszone z 550px na telefonach */
-      margin-top: 20px;
-      border-radius: 12px;
-      border: none;
-      box-shadow: 0 0 15px rgba(0,255,204,0.3);
-    }
-
     #error {
+      display: none; /* ukryty na start */
       color: red;
       margin-top: 20px;
       font-weight: bold;
       text-shadow: 0 0 4px red;
+      animation: flicker 0.15s infinite alternate;
     }
 
-    #finalMessage {
-      margin-top: 20px;
-      font-weight: bold;
-      font-size: 18px;
-      color: #00ffcc;
-      text-shadow: 0 0 6px #00ffcc;
+    @keyframes flicker {
+      from { opacity: 1; }
+      to   { opacity: 0.6; }
     }
 
-    .hidden {
-      display: none;
-    }
-
-    /* RESPONSYWNOŚĆ */
-
+    /* Responsywność */
     @media (max-width: 480px) {
       h1 {
         font-size: 22px;
@@ -138,75 +127,37 @@
         font-size: 16px;
         padding: 12px 24px;
       }
-      iframe {
-        max-height: 300px;
-      }
       .container {
-        max-width: 100vw;
-        width: 95vw;
-        max-height: 90vh;
+        max-width: 95vw;
         padding: 15px;
         border-radius: 8px;
       }
     }
-
   </style>
 </head>
 <body>
   <canvas id="matrixCanvas"></canvas>
 
   <div class="container">
-    <h1>&gt;FINAŁ</h1>
+    <h1>&gt; FINAŁ</h1>
     <p>Wpisz finałowy kod składający się z czterech fragmentów otrzymanych w poprzednich stacjach:</p>
 
     <input type="text" id="finalCode" placeholder="Wpisz kod" autocomplete="off" />
     <button onclick="checkCode()">Zatwierdź kod</button>
 
-    <div id="formSection" class="hidden">
-      <h2>&gt; GRATULACJE!</h2>
-      <p>Kod poprawny! Wypełnij poniższy formularz, aby odebrać nagrodę:</p>
-      <iframe
-        src="https://docs.google.com/forms/d/e/1FAIpQLScuPc05HBW7mP9aYCbsUHq6s7HZJ_hj5kSH4PdIW_EjxOqRYA/viewform?embedded=true"
-        frameborder="0"
-        marginheight="0"
-        marginwidth="0"
-        aria-label="Formularz Google"
-      >Ładuję…</iframe>
-      <button id="confirmSubmitBtn" onclick="showFinalMessage()" class="hidden">
-        Potwierdzam wysłanie formularza
-      </button>
-    </div>
-
-    <div id="error" class="hidden">
-      Błędny kod! Spróbuj ponownie.
-    </div>
-
-    <div id="finalMessage" class="hidden">
-      Po wypełnieniu formularza, udaj się do <strong>pokoju XXXX w 42 Warsaw</strong>, aby odebrać
-      swoją nagrodę! 🎉<br><br>
-      (przy odbiorze należy pokazać potwierdzenie wysłania)<br>
-    </div>
+    <div id="error">Błędny kod! Spróbuj ponownie.</div>
   </div>
 
   <script>
-    // Kod sprawdzania wpisanego kodu
     function checkCode() {
       const code = document.getElementById('finalCode').value.trim();
-      if (code.toUpperCase() === '06BHL1225') {
-        document.getElementById('formSection').classList.remove('hidden');
-        document.getElementById('error').classList.add('hidden');
-        document.getElementById('confirmSubmitBtn').classList.remove('hidden');
-      } else {
-        document.getElementById('error').classList.remove('hidden');
-        document.getElementById('formSection').classList.add('hidden');
-        document.getElementById('confirmSubmitBtn').classList.add('hidden');
-        document.getElementById('finalMessage').classList.add('hidden');
-      }
-    }
+      const errorDiv = document.getElementById('error');
 
-    function showFinalMessage() {
-      document.getElementById('finalMessage').classList.remove('hidden');
-      document.getElementById('confirmSubmitBtn').classList.add('hidden');
+      if (code.toUpperCase() === '06BHL1225') {
+        window.location.href = "formularz.html"; // przekierowanie do formularza
+      } else {
+        errorDiv.style.display = "block"; // pokazuje dopiero przy błędzie
+      }
     }
 
     // --- Animacja matrix ---
@@ -216,12 +167,10 @@
     let width, height;
     const fontSize = 18;
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789<>/-=+@#$%^&*';
-
     let columns;
     let drops = [];
-
     let startTime;
-    const animationDuration = 1000; // 1 sekunda w ms
+    const animationDuration = 1000;
 
     function setup() {
       width = window.innerWidth;
@@ -267,7 +216,6 @@
     }
 
     window.addEventListener('resize', setup);
-
     setup();
     requestAnimationFrame(draw);
   </script>
